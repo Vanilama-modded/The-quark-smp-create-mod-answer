@@ -1,5 +1,80 @@
-<html>
-  <body>
-    <h1><b>No Create Mod</b></h1>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>No Create Mod</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#111;
+      color:#eee;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    }
+    h1{
+      font-size:clamp(2rem,8vw,4rem);
+      font-weight:600;
+      letter-spacing:.05em;
+      user-select:none;
+    }
+    .btn{
+      position:fixed;
+      bottom:2rem;
+      left:50%;
+      transform:translateX(-50%);
+      background:#1e1e1e;
+      color:#fff;
+      border:1px solid #333;
+      padding:0 .5em;
+      font-size:clamp(2rem,8vw,4rem);
+      font-weight:600;
+      letter-spacing:.05em;
+      line-height:1;
+      border-radius:8px;
+      cursor:pointer;
+      transition:background .2s ease, transform .2s ease;
+    }
+    .btn:hover{background:#252525;transform:translateX(-50%) scale(1.05)}
+    .btn:active{transform:translateX(-50%) scale(.98)}
+  </style>
+</head>
+<body>
+  <h1>No Create Mod</h1>
+
+  <button class="btn" id="copyBtn">Paste this into Discord</button>
+
+  <script>
+    const copyBtn = document.getElementById('copyBtn');
+    const text = '# **[Answer](https://vanilama-modded.github.io/The-quark-smp-create-mod-answer/)**';
+
+    copyBtn.addEventListener('click', () => {
+      // legacy + modern fallback
+      const copyFallback = t => {
+        const ta = document.createElement('textarea');
+        ta.value = t;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => done()).catch(() => { copyFallback(text); done(); });
+      } else {
+        copyFallback(text);
+        done();
+      }
+
+      function done() {
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => copyBtn.textContent = 'Paste this into Discord', 1500);
+      }
+    });
+  </script>
+</body>
 </html>
